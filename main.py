@@ -18,7 +18,7 @@ JSON_Data = Load_JSON_Data_From_URL(FPL_API_Url)
 players, teams, events = ParseMainAPI(JSON_Data)
 
 #form, ROI, ptsPerGame, ICT index, ep_next, Future Games Score
-Regular_Scoring_Weights = [0.3, 0.1 , 0.2, 0.0, 0.2, 0.2] 
+Regular_Scoring_Weights = [0.2, 0.2 , 0.2, 0.0, 0.2, 0.2] 
 
 #form, totalPts, Future Games Score
 Superstar_Scoring_Weights = [0.4, 0.4, 0.2]

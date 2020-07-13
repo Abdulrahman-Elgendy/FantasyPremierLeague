@@ -4,9 +4,6 @@ from FPLPlayerAnalysis import Get_Players_ROI
 from FPLPlayerAnalysis import Get_Players_Future_Games_Scores
 from PlayerMetricsRangeSetting import SetRange_One_To_Ten
 
-#Need 11 main players and 4 subs
-# 2 Goalies, 5 Defenders, 5 midefielders, 3 attackers
-
 def Split_Categories(Players_Info):
     GoalKeepers = Players_Info[Players_Info['element_type'] == 1]
     Defenders = Players_Info[Players_Info['element_type'] == 2]
@@ -17,14 +14,12 @@ def Split_Categories(Players_Info):
 
 def Calculate_Players_Scores_Regular(Players_Info, Weights):
 
+    #only returns ROI for Players who played more than 3 games this season
     Players_Filtered = Players_Info[Players_Info['minutes'] > 270]
     Player_Info_Add_ROI = Get_Players_ROI(Players_Filtered)
-    #only returns ROI for Players who played more than 9 games this season
     #Midfielder_Final_Filter = Defender_Initial_Filter[Goalies_Initial_Filter['chance_of_playing_next_round'] == 100] 
 
-    print(Player_Info_Add_ROI['form'])
     Players_Info_Add_Future_Games_Score = Get_Players_Future_Games_Scores(Player_Info_Add_ROI)
-    print (Players_Info_Add_Future_Games_Score['form'])
     
     Players_Info_Adjusted1 = SetRange_One_To_Ten(Players_Info_Add_Future_Games_Score,'form')
     Players_Info_Adjusted2 = SetRange_One_To_Ten(Players_Info_Adjusted1,'points_per_game')
@@ -33,7 +28,6 @@ def Calculate_Players_Scores_Regular(Players_Info, Weights):
     Players_Info_Adjusted5 = SetRange_One_To_Ten(Players_Info_Adjusted4,'ep_next')
     Players_Info_Adjusted6 = SetRange_One_To_Ten(Players_Info_Adjusted5,'ROI')
     Players_Final_df = SetRange_One_To_Ten(Players_Info_Adjusted6,'Future Games Score')
-
 
     Weighted_Sum = ((Players_Final_df['form'].multiply(Weights[0])) 
                            + (Players_Final_df['ROI'].multiply(Weights[1])) 

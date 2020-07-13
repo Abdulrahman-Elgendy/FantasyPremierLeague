@@ -5,6 +5,9 @@ from PlayerRatingGenerator import Split_Categories
 
 
 def Team_Selection_Linear_Optimization(Players):
+    
+    #Need 11 main players and 4 subs
+    # 2 Goalies, 5 Defenders, 5 midefielders, 3 attackers
 
     Goalies, Defenders, Midfielders, Strikers = Split_Categories(Players)
 
@@ -45,6 +48,9 @@ def Team_Selection_Linear_Optimization(Players):
     Strikers_Variables = p.LpVariable.dict("Str", Str_List, lowBound = 0, cat='Binary')   # Create a variable x >= 0 
     
     # Objective Function 
+    # The objective function is to select 15 players that provide the largest possible
+    # score given the constraints
+    
     Objective_Func_Segment_One = p.lpSum([Goalies_Score_Dict[i] * Goalies_Variables[i] for i in Goalie_List])
     Objective_Func_Segment_Two = p.lpSum([Def_Score_Dict[i] * Defenders_Variables[i] for i in Def_List])
     Objective_Func_Segment_Three = p.lpSum([Mid_Score_Dict[i] * Midfielders_Variables[i] for i in Mid_List])
@@ -52,7 +58,7 @@ def Team_Selection_Linear_Optimization(Players):
       
     Lp_prob += Objective_Func_Segment_One + Objective_Func_Segment_Two + Objective_Func_Segment_Three + Objective_Func_Segment_Four
     
-    # Constraints: 
+    # Cost Constraint: 
     Cost_Constraint_Segment_One = p.lpSum([Goalies_Cost_Dict[i] * Goalies_Variables[i] for i in Goalie_List])
     Cost_Constraint_Segment_Two = p.lpSum([Def_Cost_Dict[i] * Defenders_Variables[i] for i in Def_List])
     Cost_Constraint_Segment_Three = p.lpSum([Mid_Cost_Dict[i] * Midfielders_Variables[i] for i in Mid_List])
@@ -63,19 +69,14 @@ def Team_Selection_Linear_Optimization(Players):
                 + Cost_Constraint_Segment_Three 
                 + Cost_Constraint_Segment_Four) <= 1000
     
+    # Player Count Constraints:
+    # 2 goalies, 5 defenders, 5 midfielders, 2 strikers
     Lp_prob += p.lpSum([Goalies_Variables[i] for i in Goalie_List]) == 2
     Lp_prob += p.lpSum([Defenders_Variables[i] for i in Def_List]) == 5
     Lp_prob += p.lpSum([Midfielders_Variables[i] for i in Mid_List]) == 5
     Lp_prob += p.lpSum([Strikers_Variables[i] for i in Str_List]) == 3
 
-    # Display the problem 
-    #print(Lp_prob) 
-  
     Lp_prob.solve()   # Solver 
-    #print(p.LpStatus[Lp_prob.status])   # The solution status 
-  
-    # Printing the final solution 
-    # print(p.value(Lp_prob.objective)) 
      
     ListOfDef = []
     ListOfMid = []
@@ -84,21 +85,13 @@ def Team_Selection_Linear_Optimization(Players):
     Cash_Left = 1000
 
     for constraint in Lp_prob.constraints:
-        Constraint_Name = Lp_prob.constraints[constraint].name
         Constraint_Value = Lp_prob.constraints[constraint].value() - Lp_prob.constraints[constraint].constant
 
         if(Constraint_Value > 800):
             Cash_Left = (1000 - Constraint_Value) / 10
 
-        print("///////////////////////////////////")
-        print(Constraint_Name, Constraint_Value)
-        print("///////////////////////////////////")
-
-
     for PlayerSelection in Lp_prob.variables():
-        if PlayerSelection.varValue > 0:
-            
-            #print(PlayerSelection.name)
+        if PlayerSelection.varValue > 0:            
             if PlayerSelection.name[0] == 'G':
                 ListOfGoalies.append(PlayerSelection.name)
 

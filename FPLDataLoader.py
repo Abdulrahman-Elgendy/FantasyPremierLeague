@@ -27,8 +27,8 @@ def ParseMainAPI(JSON_Data):
     return Players_df, teams_df, events_df
 
 def ParseElementSummary(JSON_Data):
-    fixtures = JSON_Data['fixtures']
+    Player_fixtures = JSON_Data['fixtures']
 
-    Player_Future_Games_df = pd.DataFrame(fixtures)
+    Player_Future_Games_df = pd.DataFrame(Player_fixtures)
 
     return Player_Future_Games_df

@@ -7,13 +7,41 @@ from PlayerMetricsRangeSetting import SetRange_One_To_Ten
 #Need 11 main players and 4 subs
 # 2 Goalies, 5 Defenders, 5 midefielders, 3 attackers
 
-def Split_Categories(Players_Info):
-    GoalKeepers = Players_Info[Players_Info['element_type'] == 1]
-    Defenders = Players_Info[Players_Info['element_type'] == 2]
-    Midfielders = Players_Info[Players_Info['element_type'] == 3]
-    Strikers = Players_Info[Players_Info['element_type'] == 4]
+def Split_Based_On_Categories(Players_Info, Category_Type='Positions'):
 
-    return GoalKeepers, Defenders, Midfielders, Strikers
+    if Category_Type == 'Positions':
+        GoalKeepers = Players_Info[Players_Info['element_type'] == 1]
+        Defenders = Players_Info[Players_Info['element_type'] == 2]
+        Midfielders = Players_Info[Players_Info['element_type'] == 3]
+        Strikers = Players_Info[Players_Info['element_type'] == 4]
+
+        return GoalKeepers, Defenders, Midfielders, Strikers
+
+    elif Category_Type == 'Teams':
+        Num_Of_PremTeams = 20
+        List_Of_DataFrames = []
+        for i in range(1,Num_Of_PremTeams + 1):
+            Selected_Team_Players = Players_Info[Players_Info['team'] == i]
+            List_Of_DataFrames.append(Selected_Team_Players)
+        
+        return List_Of_DataFrames
+
+    elif Category_Type == 'TeamsANDPositions':
+        Num_Of_PremTeams = 20
+        Outer_List_Of_DataFrames = []
+        for i in range(1,Num_Of_PremTeams + 1):
+            Inner_List_Of_DataFrames = []
+            Selected_Team_Players = Players_Info[Players_Info['team'] == i]
+            GoalKeepers, Defenders, Midfielders, Strikers = Split_Based_On_Categories(Selected_Team_Players)
+            Inner_List_Of_DataFrames.extend([GoalKeepers, Defenders, Midfielders, Strikers])
+            Outer_List_Of_DataFrames.append(Inner_List_Of_DataFrames)
+        
+        return Outer_List_Of_DataFrames
+
+    else :
+        print("Unknown Category name")
+
+    
 
 def Calculate_Players_Scores_Regular(Players_Info, Weights):
 
@@ -22,9 +50,7 @@ def Calculate_Players_Scores_Regular(Players_Info, Weights):
     #only returns ROI for Players who played more than 9 games this season
     #Midfielder_Final_Filter = Defender_Initial_Filter[Goalies_Initial_Filter['chance_of_playing_next_round'] == 100] 
 
-    print(Player_Info_Add_ROI['form'])
     Players_Info_Add_Future_Games_Score = Get_Players_Future_Games_Scores(Player_Info_Add_ROI)
-    print (Players_Info_Add_Future_Games_Score['form'])
     
     Players_Info_Adjusted1 = SetRange_One_To_Ten(Players_Info_Add_Future_Games_Score,'form')
     Players_Info_Adjusted2 = SetRange_One_To_Ten(Players_Info_Adjusted1,'points_per_game')
@@ -50,8 +76,8 @@ def Calculate_Players_Scores_Regular(Players_Info, Weights):
     Players_Info_Final.rename(columns={0:'Algorithm Score'}, inplace=True)
     Players_Info_Final.sort_values(by='Algorithm Score', inplace = True, ascending=False)
 
-    return Players_Info_Final[['first_name','second_name','ep_next'
-                                ,'element_type','now_cost','form','ict_index'
+    return Players_Info_Final[['first_name','second_name','web_name','ep_next'
+                                ,'element_type','now_cost','team','form','ict_index'
                                 ,'points_per_game','ROI','Future Games Score'
                                 ,'Algorithm Score']]
 
@@ -76,8 +102,5 @@ def Calculate_Players_Scores_Superstars(Player_Info, Weights):
     Players_Info_Final.sort_values(by='Algorithm Score', inplace = True, ascending=False)
 
     return Players_Info_Final[['first_name','second_name','element_type'
-                                ,'now_cost','form' ,'total_points'
+                                ,'now_cost','team','form','total_points'
                                 ,'Future Games Score','Algorithm Score']]
-
-
-

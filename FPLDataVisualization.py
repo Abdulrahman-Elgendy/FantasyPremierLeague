@@ -107,50 +107,50 @@ def drawPlayer(color,x,y,label):
     myPen.penup()
     x_offset = (len(label)/2) * 5
     myPen.goto(x-x_offset,y-20)
-    myPen.write(label)
+    myPen.write(label[4:])
 
 def Draw_Bench(Formation, ListOfGoalies, ListOfDef, ListOfMid, ListOfStr, Cash_Left):
 
     if Formation == 343:
         #Will have 2 defenders, 1 midfielder, 1 goalie on bench
-        drawPlayer("red",-300,-270,ListOfGoalies[1]) 
+        drawPlayer("red",-260,-270,ListOfGoalies[1]) 
 
-        drawPlayer("red",-200,-270,ListOfDef[3]) 
-        drawPlayer("red",-100,-270,ListOfDef[4]) 
+        drawPlayer("red",-140,-270,ListOfDef[3]) 
+        drawPlayer("red",-20,-270,ListOfDef[4]) 
 
-        drawPlayer("red",0,-270, ListOfMid[4]) 
+        drawPlayer("red",100,-270, ListOfMid[4]) 
         
         #Add Cash Remaining:
         CashLeft = "Cash Remaining: " + str(Cash_Left)
-        drawPlayer("white",200,-270,CashLeft)
+        drawPlayer("white",300,-270,CashLeft)
 
     elif Formation == 442:
         #Will have 1 defenders, 1 midfielder, 1 striker, 1 goalie on bench
-        drawPlayer("red",-300,-270,ListOfGoalies[1]) 
+        drawPlayer("red",-260,-270,ListOfGoalies[1]) 
 
-        drawPlayer("red",-200,-270,ListOfDef[4]) 
+        drawPlayer("red",-140,-270,ListOfDef[4]) 
 
-        drawPlayer("red",-100,-270,ListOfMid[4]) 
+        drawPlayer("red",-20,-270,ListOfMid[4]) 
                 
-        drawPlayer("red",0,-270,ListOfStr[2]) 
+        drawPlayer("red",100,-270,ListOfStr[2]) 
         
         #Add Cash Remaining:
         CashLeft = "Cash Remaining: " + str(Cash_Left)
-        drawPlayer("white",200,-270,CashLeft)
+        drawPlayer("white",300,-270,CashLeft)
 
     elif Formation == 352:
         #Will have 2 defenders 1 striker, 1 goalie on bench
-        drawPlayer("red",-300,-270,ListOfGoalies[1]) 
+        drawPlayer("red",-260,-270,ListOfGoalies[1]) 
 
-        drawPlayer("red",-200,-270,ListOfDef[3]) 
+        drawPlayer("red",-140,-270,ListOfDef[3]) 
 
-        drawPlayer("red",-100,-270,ListOfDef[4]) 
+        drawPlayer("red",-20,-270,ListOfDef[4]) 
                 
-        drawPlayer("red",0,-270,ListOfStr[2]) 
+        drawPlayer("red",100,-270,ListOfStr[2]) 
 
         #Add Cash Remaining:
         CashLeft = "Cash Remaining: " + str(Cash_Left)
-        drawPlayer("white",200,-270,CashLeft)
+        drawPlayer("white",300,-270,CashLeft)
         
     else:
         print("Formation not programmed yet")
@@ -172,10 +172,10 @@ def Draw_Four_Four_Two(ListOfGoalies, ListOfDef, ListOfMid, ListOfStr, Cash_Left
     drawPlayer("yellow",-175,-120,ListOfDef[3]) 
 
     #Draw 4 Midfielders
-    drawPlayer("yellow",175,20,ListOfMid[0]) 
-    drawPlayer("yellow",-60,20,ListOfMid[1]) 
-    drawPlayer("yellow",60,20,ListOfMid[2]) 
-    drawPlayer("yellow",-175,20,ListOfMid[3]) 
+    drawPlayer("yellow",225,20,ListOfMid[0]) 
+    drawPlayer("yellow",-75,20,ListOfMid[1]) 
+    drawPlayer("yellow",75,20,ListOfMid[2]) 
+    drawPlayer("yellow",-225,20,ListOfMid[3]) 
 
     #Draw 2 Strikers
     drawPlayer("yellow",-60,150,ListOfStr[0]) 
@@ -194,20 +194,20 @@ def Draw_Three_Four_Three(ListOfGoalies, ListOfDef, ListOfMid, ListOfStr, Cash_L
     drawPlayer("blue",-0,-190,ListOfGoalies[0]) 
 
     #Draw 3 defenders
-    drawPlayer("yellow",-140,-130, ListOfDef[0]) 
+    drawPlayer("yellow",-150,-130, ListOfDef[0]) 
     drawPlayer("yellow",0,-130, ListOfDef[1]) 
-    drawPlayer("yellow",140,-130, ListOfDef[2]) 
+    drawPlayer("yellow",150,-130, ListOfDef[2]) 
 
     #Draw 4 Midfielders
-    drawPlayer("yellow",175,20,ListOfMid[0]) 
-    drawPlayer("yellow",-60,20,ListOfMid[1]) 
-    drawPlayer("yellow",60,20,ListOfMid[2]) 
-    drawPlayer("yellow",-175,20,ListOfMid[3]) 
+    drawPlayer("yellow",225,20,ListOfMid[0]) 
+    drawPlayer("yellow",-75,20,ListOfMid[1]) 
+    drawPlayer("yellow",75,20,ListOfMid[2]) 
+    drawPlayer("yellow",-225,20,ListOfMid[3]) 
 
     #Draw 3 Strikers
-    drawPlayer("yellow",-140,150,ListOfStr[0]) 
+    drawPlayer("yellow",-150,150,ListOfStr[0]) 
     drawPlayer("yellow",0,150,ListOfStr[1]) 
-    drawPlayer("yellow",140,150,ListOfStr[2]) 
+    drawPlayer("yellow",150,150,ListOfStr[2]) 
 
     Draw_Bench(343, ListOfGoalies, ListOfDef, ListOfMid, ListOfStr, Cash_Left)
     turtle.mainloop()
@@ -222,20 +222,20 @@ def Draw_Three_Five_Two(ListOfGoalies, ListOfDef, ListOfMid, ListOfStr, Cash_Lef
     drawPlayer("blue",-0,-190,ListOfGoalies[0]) 
 
     #Draw 3 defenders
-    drawPlayer("yellow",-140,-130,ListOfDef[0]) 
+    drawPlayer("yellow",-150,-130,ListOfDef[0]) 
     drawPlayer("yellow",0,-130,ListOfDef[1]) 
-    drawPlayer("yellow",140,-130,ListOfDef[2]) 
+    drawPlayer("yellow",150,-130,ListOfDef[2]) 
 
     #Draw 5 Midfielders
-    drawPlayer("yellow",200,20,ListOfMid[0]) 
-    drawPlayer("yellow",100,20,ListOfMid[1]) 
+    drawPlayer("yellow",220,20,ListOfMid[0]) 
+    drawPlayer("yellow",110,20,ListOfMid[1]) 
     drawPlayer("yellow",0,20,ListOfMid[2]) 
-    drawPlayer("yellow",-100,20,ListOfMid[3]) 
-    drawPlayer("yellow",-200,20,ListOfMid[4]) 
+    drawPlayer("yellow",-110,20,ListOfMid[3]) 
+    drawPlayer("yellow",-220,20,ListOfMid[4]) 
 
     #Draw 2 Strikers
-    drawPlayer("yellow",-60,150,ListOfStr[0]) 
-    drawPlayer("yellow",60,150,ListOfStr[1])  
+    drawPlayer("yellow",-75,150,ListOfStr[0]) 
+    drawPlayer("yellow",75,150,ListOfStr[1])  
 
     Draw_Bench(352, ListOfGoalies, ListOfDef, ListOfMid, ListOfStr, Cash_Left)
     turtle.mainloop()
